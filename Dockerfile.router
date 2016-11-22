@@ -1,0 +1,9 @@
+FROM kalledk/itifn:base
+
+MAINTAINER Kalle R. Møller <docker@k-moeller.dk>
+
+RUN apk add --no-cache \
+         dhcp \
+         radvd
+
+RUN touch /var/lib/dhcp/dhcpd.leases
