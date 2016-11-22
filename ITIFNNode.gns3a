@@ -1,0 +1,17 @@
+{
+    "name": "Node",
+    "category": "guest",
+    "description": "ITIFN Node",
+    "vendor_name": "KalleDK",
+    "vendor_url": "https://github.com/KalleDK/docker-itifn",
+    "product_name": "ITIFNNode",
+    "registry_version": 3,
+    "status": "experimental",
+    "maintainer": "KalleDK",
+    "maintainer_email": "docker@k-moeller.dk",
+    "docker": {
+        "adapters": 1,
+        "image": "kalledk/itifn:node",
+        "console_type": "telnet"
+    }
+}
