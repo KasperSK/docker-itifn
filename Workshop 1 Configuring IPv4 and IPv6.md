@@ -1,5 +1,4 @@
 # Workshop 1
-## Configuring IPv4 and IPv6 Networking
 ## Configuring IPv4 and IPv6
 
 This workshop consists of two parts. The first part is dealing with IPv4 static address configuration, address resolution (ARP), and autoconfiguration (DHCP). The second part is dealing with IPv6 autoconfiguration and address resolution which is part of the Neighbour Discovery Protocol (NDP).
