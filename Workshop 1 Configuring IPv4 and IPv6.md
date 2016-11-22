@@ -38,7 +38,7 @@ The experiments consists of the following steps. When asked to fill in informati
  * Verify the settings via
  
     ```
-    ip addr eth0
+    ip addr show eth0
     ```
 
 ### Step 2: Observe ARP and Ping Packets
