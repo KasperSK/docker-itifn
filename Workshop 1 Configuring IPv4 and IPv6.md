@@ -296,7 +296,7 @@ An example:
  * Inspect the assigned IPv6-addresses. Does the address configured for the interface match the one calculated? If not try to calculate it again.
 
     ```
-    ip addr eth0
+    ip addr show eth0
     ```
 
  * As a final test, ping the node which was autoconfigured using the command (replacing the x's with the address):

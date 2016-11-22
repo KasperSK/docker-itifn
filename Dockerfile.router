@@ -6,4 +6,5 @@ RUN apk add --no-cache \
          dhcp \
          radvd
 
-RUN touch /var/lib/dhcp/dhcpd.leases
+RUN touch /var/lib/dhcp/dhcpd.leases \
+    mkdir /var/run/radvd
