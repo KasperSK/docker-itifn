@@ -3,7 +3,15 @@
 ## General
 
  * Server Client based info
+ * VMWare general recommended over VirtualBox due to pasthrough
 
+## Pure Virtual
+
+ * Install VMWare or VirtualBox
+ * Install [Lubuntu](https://help.ubuntu.com/community/Lubuntu/GetLubuntu) or your favorite distro
+ * Follow the official [guide](https://gns3.com/support/docs/linux-installation)
+    Notice that you dont need IOU, Dynamips or QUEMU
+ *  
 
 ## OSX
 
