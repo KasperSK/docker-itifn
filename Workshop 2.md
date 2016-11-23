@@ -78,146 +78,158 @@ Below is a simple client and a simple server program written in Perl. This is fo
 
 To explain the socket we will take an example of client-server Programming. To complete a client server architecture we would have to go through the following steps:
 
-#### Creating a Server
+### Creating a Server
 
 * Create a socket with socket call.
 * Bind the socket to a port address with bind call.
 * Listen to the socket at the port address with listen call.
 * Accept client connections with accept call.
 
-#### Creating a Client
+### Creating a Client
 
 * Create a socket with socket call.
 * Connect (the socket) to the remote machine with connect call.
 
-#### A simple server
+### A simple server
 
-    ```perl
-    #! /usr/bin/perl -w
-    # server0.pl
-    #--------------------
+```perl
+#! /usr/bin/perl -w
+# server0.pl
+#--------------------
 
-    use strict;
-    use Socket;
+use strict;
+use Socket;
 
-    # use port 7890 as default
-    my $port = shift || 7890;
-    my $proto = getprotobyname('tcp');
+# use port 7890 as default
+my $port = shift || 7890;
+my $proto = getprotobyname('tcp');
 
-    # create a socket, make it reusable
-    socket(SERVER, PF_INET, SOCK_STREAM, $proto) or die "socket: $!\n";
-    setsockopt(SERVER, SOL_SOCKET, SO_REUSEADDR, 1) or die "setsock: $!\n";
+# create a socket, make it reusable
+socket(SERVER, PF_INET, SOCK_STREAM, $proto) or die "socket: $!\n";
+setsockopt(SERVER, SOL_SOCKET, SO_REUSEADDR, 1) or die "setsock: $!\n";
 
-    # grab a port on this machine
-    my $paddr = sockaddr_in($port, INADDR_ANY);
+# grab a port on this machine
+my $paddr = sockaddr_in($port, INADDR_ANY);
 
-    # bind to a port, then listen
-    bind(SERVER, $paddr) or die "bind: $!\n";
-    listen(SERVER, SOMAXCONN) or die "listen: $!\n";
-    print "SERVER started on port $port.\n";
+# bind to a port, then listen
+bind(SERVER, $paddr) or die "bind: $!\n";
+listen(SERVER, SOMAXCONN) or die "listen: $!\n";
+print "SERVER started on port $port.\n";
 
-    # accepting a connection
-    my $client_addr;
-    while ($client_addr = accept(CLIENT, SERVER))
-    {
+# accepting a connection
+my $client_addr;
+while ($client_addr = accept(CLIENT, SERVER))
+{
 
-        # find out who connected
-        my ($client_port, $client_ip) = sockaddr_in($client_addr);
-        my $client_ipnum = inet_ntoa($client_ip);
-        my $client_host = gethostbyaddr($client_ip, AF_INET);
+    # find out who connected
+    my ($client_port, $client_ip) = sockaddr_in($client_addr);
+    my $client_ipnum = inet_ntoa($client_ip);
+    my $client_host = gethostbyaddr($client_ip, AF_INET);
 
-        # print who has connected
-        print "got a connection from: $client_host","[$client_ipnum] ";
+    # print who has connected
+    print "got a connection from: $client_host","[$client_ipnum] ";
 
-        # send them a message, close connection
-        print CLIENT "Smile from the server.\n";
-        close CLIENT;
-     }
-     ```
+    # send them a message, close connection
+    print CLIENT "Smile from the server.\n";
+    close CLIENT;
+ }
+```
 
-### Analysis
+#### Analysis
 
 This simple server can run just on one machine that can service only one client program at a time connecting from the same or a different machine. Recall that the steps for creating a server were to create a socket, bind it to a port, listen at the port and accept client connections.
 
-Line 1 and 4: The Perl script is compiled using strict. This requires all variables to be declared with the "my" function before they are used. Using "my" may be inconvenient, but it can catch common syntactically correct yet logically incorrect programming bugs.
-Line 7: The variable $port is assigned the first command-line argument or port 7890 as the default. When choosing a port for your server, pick one that is unused on your machine.
-Line 10 and 11: The socket is created using the socket function. A socket is like a file handle-it can be read from, written to or both. The function setsockopt is called to ensure that the port will be immediately reusable.
-Line 13: The sockaddr_in function obtains a port on the server. The argument INADDR_ANY chooses one of the server's virtual IP addresses. You could instead decide to bind only one of the virtual IP addresses by replacing INADDR_ANY with inet_aton("192.168.1.1") or gethostbyname ('localhost').
-Line 15: The bind function binds the socket to the port, i.e., plugs the socket into that port.
-Line 16: The listen function causes the server to begin listening at the port. The second argument to the listen function is the maximum queue length or the maximum number of pending client connections. The value SOMAXCONN is the maximum queue length for the machine being used.
-Line 20: Once the server begins listening at the port, it can accept client connections using the accept function. When the client is accepted, a new socket is created named CLIENT which can be used like a file handle. Reading from the socket reads the client's output and printing to the socket sends data to the client. The return value of the accept function is the Internet address of the client in a packed format.
-Line 24 and 25: The function sockaddr_in takes the packed format and returns the client's port number and the client's numeric Internet address in a packed format. The packed numeric Internet address can be converted to a text string representing the numeric IP using inet_ntoa (numeric to ASCII). To convert the packed numeric address to a host name, the function gethostbyaddr is used.
-Program is run like this:
+* __Line 1 and 4:__ The Perl script is compiled using strict. This requires all variables to be declared with the "my" function before they are used. Using "my" may be inconvenient, but it can catch common syntactically correct yet logically incorrect programming bugs.
+* __Line 7:__ The variable $port is assigned the first command-line argument or port 7890 as the default. When choosing a port for your server, pick one that is unused on your machine.
+* __Line 10 and 11:__ The socket is created using the socket function. A socket is like a file handle-it can be read from, written to or both. The function setsockopt is called to ensure that the port will be immediately reusable.
+* __Line 13:__ The sockaddr_in function obtains a port on the server. The argument INADDR_ANY chooses one of the server's virtual IP addresses. You could instead decide to bind only one of the virtual IP addresses by replacing INADDR_ANY with inet_aton("192.168.1.1") or gethostbyname ('localhost').
+* __Line 15:__ The bind function binds the socket to the port, i.e., plugs the socket into that port.
+* __Line 16:__ The listen function causes the server to begin listening at the port. The second argument to the listen function is the maximum queue length or the maximum number of pending client connections. The value SOMAXCONN is the maximum queue length for the machine being used.
+* __Line 20:__ Once the server begins listening at the port, it can accept client connections using the accept function. When the client is accepted, a new socket is created named CLIENT which can be used like a file handle. Reading from the socket reads the client's output and printing to the socket sends data to the client. The return value of the accept function is the Internet address of the client in a packed format.
+* __Line 24 and 25:__ The function sockaddr_in takes the packed format and returns the client's port number and the client's numeric Internet address in a packed format. The packed numeric Internet address can be converted to a text string representing the numeric IP using inet_ntoa (numeric to ASCII). To convert the packed numeric address to a host name, the function gethostbyaddr is used.
 
-perl -w server0.pl
+The program is run like this:
+
+    perl -w server0.pl
+
 And the output should look something like this
-SERVER started on port 7890
-The server is now listening at port 7890 on the local host, waiting for clients to connect.
-Remarks
+
+    SERVER started on port 7890
+    The server is now listening at port 7890 on the local host, waiting for clients to connect.
+
+#### Remarks
 
 The function getprotobyname() requires the Linux file /etc/protocols to associate protocol names with numbers. For this workshop the following entries are needed when you use the VNE for testing:
 
-tcp	6	TCP		# transmission control protocol
-udp	17	UDP		# user datagram protocol
+    tcp     6	     TCP		# transmission control protocol
+    udp     17	    UDP		# user datagram protocol
+
 In addition, the VNE hosts need to be configured to use the /etc/hosts for name resolution since we do not have a running DNS service. To allow hostname resolution you may configure /etc/host.conf as follows:
 
-order hosts, bind
-multi on
+    order hosts, bind
+    multi on
+
 and /etc/nsswitch.conf
-hosts    files
+
+    hosts    files
+
 A /etc/hosts file could look something like the following, but needs of course to be adapted to your test setup.
 
-127.0.0.1    localhost
-10.0.0.1     theclient
-10.0.0.2     theserver
-A simple client
+    127.0.0.1    localhost
+    10.0.0.1     theclient
+    10.0.0.2     theserver
 
+### A simple client
 
-  1  #! /usr/bin/perl -w
-  2  # client1.pl - a simple client
-  3  #----------------
+```perl
+#! /usr/bin/perl -w
+# client1.pl - a simple client
+#----------------
 
-  4  use strict;
-  5  use Socket;
+use strict;
+use Socket;
 
-  6  # initialize host and port
-  7  my $host = shift || 'localhost';
-  8  my $port = shift || 7890;
+# initialize host and port
+my $host = shift || 'localhost';
+my $port = shift || 7890;
 
-  9  my $proto = getprotobyname('tcp');
+my $proto = getprotobyname('tcp');
 
- 10  # get the port address
- 11  my $iaddr = inet_aton($host);
- 12  my $paddr = sockaddr_in($port, $iaddr);
+# get the port address
+my $iaddr = inet_aton($host);
+my $paddr = sockaddr_in($port, $iaddr);
 
- 13  # create the socket, connect to the port
- 14  socket(SOCKET, PF_INET, SOCK_STREAM, $proto) or die "socket: $!\n";
- 15  connect(SOCKET, $paddr) or die "connect: $!\n";
+# create the socket, connect to the port
+socket(SOCKET, PF_INET, SOCK_STREAM, $proto) or die "socket: $!\n";
+connect(SOCKET, $paddr) or die "connect: $!\n";
 
- 16  my $line;
- 17  while ($line = <SOCKET> )  
- 18  {
- 19    print $line;
- 20  }
- 21  close SOCKET or die "close: $!";
+my $line;
+while ($line = <SOCKET> )  
+{
+    print $line;
+}
+close SOCKET or die "close: $!";
+```
 
-Analysis
+#### Analysis
 
-Line 7 and 8: Takes the command-line arguments of host name and port number or if no arguments are passed initializes variables with the default values.
-Line 11 and 12: The host name and the port number are used to generate the port address using inet_aton (ASCII to numeric) and sockaddr_in.
-Line 14 and 15: A socket is created using socket and the client connects the socket to the port address using connect.
-Line 17 and 21: The while loop then reads the data the server sends to the client until the end-of-file is reached, printing this input to STDOUT. Then the socket is closed.
-Command-line arguments in Perl
+* __Line 7 and 8:___ Takes the command-line arguments of host name and port number or if no arguments are passed initializes variables with the default values.
+* __Line 11 and 12:__ The host name and the port number are used to generate the port address using inet_aton (ASCII to numeric) and sockaddr_in.
+* __Line 14 and 15:__ A socket is created using socket and the client connects the socket to the port address using connect.
+* __Line 17 and 21:__ The while loop then reads the data the server sends to the client until the end-of-file is reached, printing this input to STDOUT. Then the socket is closed.
+
+### Command-line arguments in Perl
 
 The example below shows how to capture command line arguments in Perl.
 
+```perl
+#!/usr/bin/perl -w
+if ($#ARGV != 1 ) {
+    print "usage: serverprogram <server> <port>\n";
+    exit;
+}
 
-  1  #!/usr/bin/perl -w
-  2  if ($#ARGV != 1 ) {
-  3  	print "usage: serverprogram <server> <port>\n";
-  4  	exit;
-  5  }
-  6
-  7  # capture the arguments into variables
-  8  $server=$ARGV[0];
-  9  $port=$ARGV[1];
+# capture the arguments into variables
+$server=$ARGV[0];
+$port=$ARGV[1];
+```
