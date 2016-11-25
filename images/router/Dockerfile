@@ -27,3 +27,7 @@ RUN touch /var/lib/dhcp/dhcpd.leases \
     && mkdir /var/run/radvd \
     && mkdir -p /dev/net \
     && mknod /dev/net/tun c 10 200
+
+COPY entrypoint.sh /bin/entrypoint.sh
+
+RUN chmod +x /bin/entrypoint.sh
