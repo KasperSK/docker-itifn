@@ -11,7 +11,7 @@ The same GNS3 project is used for all experiments. The first pstep is to create 
  * Add an Ethernet Switch, two Nodes, and a Router
  * Connect them as below
 
-    ![Project](/resources/Project.png)
+    ![Project](/workshops/resources/Project.png)
 
  * Save the project
  * Start all devices, wait until all links are green

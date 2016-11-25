@@ -19,23 +19,36 @@ We first consider the process of setting up a single IPv6-in-IPv4 tunnel. The IP
 
 Start GNS3 the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
 
-![LAB02](/resources/LAB02.png)
+![LAB02](/workshops/resources/LAB02_6IN4.png)
+
+Following networks are used
+
+| Name         | Network
+|--------------|--------------------------
+| Interconnect | 10.0.0.0 / 24
+| Shannon      | 2001:878:402:1::0 / 64
+| Nygaard      | 2001:878:402:2::0 / 64
+| Tunnel       | 2001:878:402:3::0 / 64
 
 Start the laboratory, and wait until all nodes have started up completely. The laboratory shall be configured with the following IP addresses:
 
 
-| Network  Node	| eth0 (IP / CIDR)       | eth1 (IP / CIDR)
+| Network  Node	| eth0                   | eth1
 |---------------|------------------------|------------------
 | Node 1	      | 2001:878:402:1:XX / 64 | N/A
-| Node 2	      | 10.0.0.3 / 24	         | N/A
-| Node 3	      | 2001:878:402:2:XX / 64 | N/A
+| Node 2	      | 2001:878:402:2:XX / 64 | N/A
 | Router 1      | 2001:878:402:1::1 / 64 | 10.0.0.1 / 24
 | Router 2      | 2001:878:402:2::1 / 64 | 10.0.0.2 / 24
 
 An XX in an IPv6 address means that the interface is configured using stateless autoconfiguration and will configure an address with the prefix given to the router on the corresponding network.
 
-Try to ping "Router 1" (eth0) from "Node 1", "Router 1" (eth1) from "Node 2", and "Router 2" (eth0) from "Node 3". This should work without any problems.
+Try to ping follwowing:
 
+* Router 1 (eth0) <-> Node 1 (eth0)
+* Router 1 (eth1) <-> Router 2 (eth1)
+* Router 2 (eth0) <-> Node 2 (eth0)
+
+This should work without any problems.
 
 > ##### Challenge 3.1
 > Try to ping eth1 of "Router 1" from "Node 1", why is this not possible?
@@ -48,7 +61,7 @@ Try to ping "Router 1" (eth0) from "Node 1", "Router 1" (eth1) from "Node 2", an
 >
 > ```
 
-Now, we setup a 6-in-4 tunnel between "Router 1" and "Router 2", such that "Node 1" and "Node 3" can communicate using IPv6.
+Now, we setup a 6-in-4 tunnel between "Router 1" and "Router 2", such that "Node 1" and "Node 2" can communicate using IPv6.
 
 Login to "Router 1" and execute the following commmand:
 
@@ -90,11 +103,11 @@ On "Router 2" add a route to the 2001:878:402:1/64 network:
 
     ip -6 route add 2001:878:402:1::/64 via 2001:878:402:3::1
 
-Ensure that you can ping 2001:878:402:1::1 from both "Router 2" and "Node 3".
+Ensure that you can ping 2001:878:402:1::1 from both "Router 2" and "Node 2".
 
 Use the command ```ip -6 route``` to inspect the routing tables on "Router 1" and "Router 2", and observe how the tunnel endpoints are being used as interfaces.
 
-Start Wireshark, and capture packets from IPv4 Net. Ping "Node 3" from "Node 1".
+Start Wireshark, and capture packets from IPv4 Net. Ping "Node 2" from "Node 1".
 
 After a couple of ping requests have been answered, stop the ping and Wireshark capture.
 
@@ -124,19 +137,19 @@ TAYGA is an out-of-kernel stateless NAT64 implementation for Linux that uses the
 
 Start the VNE Manager and build the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
 
-![LAB02_NAT64](/resources/LAB02_NAT64.png)
+![LAB02_NAT64](/workshops/resources/LAB02_NAT64.png)
 
 Configure the interfaces given in the table below:
 
-| Network Node |	eth0 (IP / CIDR)	| eth1 (IP / CIDR)
-|--------------|--------------------|---------------|
-| Node 1	| 2001:db8:1:1::2 / 64	| N/A
-| Node 2	| 192.168.1.2 / 24	| N/A
-| NAT64 gateway	| 2001:db8:1:1::1 / 64	| 192.168.1.1 / 24
+| Network Node  |	eth0 (IP / CIDR)     | eth1 (IP / CIDR) |
+|---------------|----------------------|------------------|
+| Node 1        | 2001:db8:1:1::2 / 64 | N/A              |
+| Node 2        | 192.168.1.2 / 24     | N/A              |
+| NAT64 gateway	| 2001:db8:1:1::1 / 64 | 192.168.1.1 / 24 |
 
 Before starting the TAYGA daemon, the routing setup on your system will need to be changed to send IPv4 and IPv6 packets to TAYGA.
 
-Make a configuration file /usr/local/etc/tayga.conf with the following content:
+Make a configuration file ```/usr/local/etc/tayga.conf``` with the following content:
 
     tun-device nat64
     ipv4-addr 192.168.255.1
