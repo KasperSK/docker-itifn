@@ -6,3 +6,7 @@ RUN apk add --no-cache \
          dhclient \
          python3 \
          perl
+
+COPY entrypoint.sh /bin/entrypoint.sh
+
+RUN chmod +x /bin/entrypoint.sh

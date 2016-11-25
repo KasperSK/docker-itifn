@@ -12,6 +12,7 @@
     "docker": {
         "adapters": 4,
         "image": "kalledk/itifn:router",
-        "console_type": "telnet"
+        "console_type": "telnet",
+        "start_command": "/bin/entrypoint.sh"
     }
 }

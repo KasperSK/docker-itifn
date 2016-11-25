@@ -19,19 +19,4 @@ sysctl -w net.ipv6.conf.eth0.dad_transmits=0 > /dev/null
 sysctl -w net.ipv6.conf.eth0.accept_ra=0 > /dev/null
 sysctl -w net.ipv6.conf.eth0.router_solicitations=0 > /dev/null
 
-sysctl -w net.ipv6.conf.eth1.autoconf=0 > /dev/null
-sysctl -w net.ipv6.conf.eth1.dad_transmits=0 > /dev/null
-sysctl -w net.ipv6.conf.eth1.accept_ra=0 > /dev/null
-sysctl -w net.ipv6.conf.eth1.router_solicitations=0 > /dev/null
-
-sysctl -w net.ipv6.conf.eth2.autoconf=0 > /dev/null
-sysctl -w net.ipv6.conf.eth2.dad_transmits=0 > /dev/null
-sysctl -w net.ipv6.conf.eth2.accept_ra=0 > /dev/null
-sysctl -w net.ipv6.conf.eth2.router_solicitations=0 > /dev/null
-
-sysctl -w net.ipv6.conf.eth3.autoconf=0 > /dev/null
-sysctl -w net.ipv6.conf.eth3.dad_transmits=0 > /dev/null
-sysctl -w net.ipv6.conf.eth3.accept_ra=0 > /dev/null
-sysctl -w net.ipv6.conf.eth3.router_solicitations=0 > /dev/null
-
 bash
