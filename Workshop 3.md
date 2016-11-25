@@ -2,6 +2,13 @@
 
 ## Transition Mechanisms
 
+NOTICE Run on all router pre normal usage
+
+    sysctl -w net.ipv6.conf.all.autoconf=0
+    sysctl -w net.ipv6.conf.all.dad_transmits=0
+    sysctl -w net.ipv6.conf.all.accept_ra=0
+    sysctl -w net.ipv6.conf.all.router_solicitations=0
+
 ### IPv6 transition mechanisms
 
 The goal of this workshop is to get hands-on experience with IPv4-IPv6 transition mechanisms. It consists of two parts. The first part deals with simple IPv6-in-IPv4 tunnelling, while the second part explores the protocol translation mechanism.
