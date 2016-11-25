@@ -65,7 +65,7 @@ Note that we are using a new network prefix rather than one of the two already u
 
 Login to "Router 2" and create the other endpoint of the tunnel:
 
-  	iptunnel add tun0 mode sit ttl 64 remote 10.0.0.1 local 10.0.0.2
+    iptunnel add tun0 mode sit ttl 64 remote 10.0.0.1 local 10.0.0.2
     ip addr add 2001:878:402:3::2/64 dev tun0
     ip link set up tun0
 
@@ -88,7 +88,7 @@ On "Router 1" add a route to the 2001:878:402:2/64 network by running:
 
 On "Router 2" add a route to the 2001:878:402:1/64 network:
 
-	  ip -6 route add 2001:878:402:1::/64 via 2001:878:402:3::1
+    ip -6 route add 2001:878:402:1::/64 via 2001:878:402:3::1
 
 Ensure that you can ping 2001:878:402:1::1 from both "Router 2" and "Node 3".
 
@@ -155,25 +155,25 @@ Enable datagram forwarding on interfaces on NAT64gw:
 
 Define a new interface on the NAT64gw and assign an IPv4 as well as an IPv6 address to the interface:
 
-  	ip link set nat64 up
-	  ip addr add 192.168.0.1 dev nat64
-	  ip addr add 2001:db8:1::1 dev nat64
+    ip link set nat64 up
+    ip addr add 192.168.0.1 dev nat64
+    ip addr add 2001:db8:1::1 dev nat64
 
 Setup static routes to ensure that traffic is routed to the new interface.
 
-	  ip route add 192.168.255.0/24 dev nat64
-	  ip route add 2001:db8:1:ffff::/96 dev nat64
+    ip route add 192.168.255.0/24 dev nat64
+    ip route add 2001:db8:1:ffff::/96 dev nat64
 
 Finally, start the NAT64gw application by using the command
 
-	  tayga -d &
+    tayga -d &
 
 Inspect the new interface by using ifconfig nat64. On the NAT64gw try to ping6 2001:db8:1:ffff::192.168.0.1. If it succeeds Tayga is running properly.
 
 Add default gateway routes to Node 1 and Node 2, respectively:
 
-	  ip route add ::/0 via 2001:db8:1:1::1      (Node 1)
-	  ip route add 0.0.0.0/0 via 192.168.1.1     (Node 2)
+    ip route add ::/0 via 2001:db8:1:1::1      (Node 1)
+    ip route add 0.0.0.0/0 via 192.168.1.1     (Node 2)
 
 
 > ##### Challenge 3.4
