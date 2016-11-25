@@ -11,7 +11,8 @@
  * Install [Lubuntu](https://help.ubuntu.com/community/Lubuntu/GetLubuntu) or your favorite distro
  * Follow the official [guide](https://gns3.com/support/docs/linux-installation)
     Notice that you dont need IOU, Dynamips or QUEMU
- *  
+ * Install Wireshark if it was not mentioned in the guide
+ * Install Docker   
 
 ## OSX
 

@@ -166,7 +166,7 @@ We now have a node on the network which acts as an IPv6 router. Next step is to 
  * Inspect the interface by typing:
 
     ```
-    ip addr eth0
+    ip addr show eth0
     ```
 
     > ##### Challenge 1.3
