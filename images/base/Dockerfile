@@ -10,4 +10,8 @@ RUN apk add --no-cache \
 
 ENV PS1 '\h:\w\$'
 
+COPY entrypoint.sh /bin/entrypoint.sh
+
+RUN chmod +x /bin/entrypoint.sh
+
 VOLUME ["/data"]
