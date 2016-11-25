@@ -129,7 +129,7 @@ Start the VNE Manager and build the "simple-tunnel-lab" laboratory. The topology
 Configure the interfaces given in the table below:
 
 | Network Node |	eth0 (IP / CIDR)	| eth1 (IP / CIDR)
-|----
+|--------------|--------------------|---------------|
 | Node 1	| 2001:db8:1:1::2 / 64	| N/A
 | Node 2	| 192.168.1.2 / 24	| N/A
 | NAT64 gateway	| 2001:db8:1:1::1 / 64	| 192.168.1.1 / 24
