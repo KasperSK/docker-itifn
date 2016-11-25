@@ -5,7 +5,8 @@ MAINTAINER Kalle R. Møller <docker@k-moeller.dk>
 RUN apk add --no-cache \
          bash \
          vim \
-         nano
+         nano \
+         tcpdump
 
 ENV PS1 '\h:\w\$'
 
