@@ -110,18 +110,6 @@ The objective of these experiments is to observe how stateless IPv6 Autoconfigur
 Start this part by opening the project that was created in the beginning of the workshop and connect WireShark to the hub.
 The experiments consists of the following steps. When asked to fill in information, do so before continuing to the next step.
 
-### Step 0: Prepare nodes
-
- * As ipv6 autoconf is enabled by default, start by disabling it on alle 3 nodes
-
-    ```
-    sysctl -w net.ipv6.conf.eth0.autoconf=0
-    sysctl -w net.ipv6.conf.eth0.dad_transmits=0
-    sysctl -w net.ipv6.conf.eth0.accept_ra=0
-    sysctl -w net.ipv6.conf.eth0.router_solicitations=0
-    ip link set eth0 down
-    ```
-
 ### Step 1: Configure IPv6 Router
 
 In order to see how IPv6 autoconfiguration works with a router present, we need to configure the Router Advertisement Daemon (radvd) on the router node:
