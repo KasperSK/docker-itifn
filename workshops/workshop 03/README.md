@@ -1,20 +1,20 @@
 # Workshop 3
 
-## Transition Mechanisms
-
-### IPv6 transition mechanisms
+## IPv6 transition mechanisms
 
 The goal of this workshop is to get hands-on experience with IPv4-IPv6 transition mechanisms. It consists of two parts. The first part deals with simple IPv6-in-IPv4 tunnelling, while the second part explores the protocol translation mechanism.
 
-### Part 1: Simple Tunnel Setup
+## Part 1: Simple Tunnel Setup
 
 We first consider the process of setting up a single IPv6-in-IPv4 tunnel. The IPv6-in-IPv4 tunnel allows connections to IPv6 networks through IPv4 networks. This is what is used when connecting to IPv6 networks through the Internet.
 
-Start GNS3 the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
+### Lab Overview
 
-![LAB03](/workshops/workshop 03/images/LAB03_6IN4.png)
+#### Setup
 
-Following networks are used
+![LAB03_6IN4](/workshops/workshop 03/images/LAB03_6IN4.png)
+
+#### Networks
 
 | Name         | Network
 |--------------|--------------------------
@@ -23,7 +23,9 @@ Following networks are used
 | Nygaard      | 2001:878:402:2::0 / 64
 | Tunnel       | 2001:878:402:3::0 / 64
 
-Start the laboratory, and wait until all nodes have started up completely. The laboratory shall be configured with the following IP addresses:
+### Creating the lab
+
+The laboratory shall be configured with the following IP addresses:
 
 
 | Network  Node	| eth0                   | eth1
@@ -35,7 +37,7 @@ Start the laboratory, and wait until all nodes have started up completely. The l
 
 An XX in an IPv6 address means that the interface is configured using stateless autoconfiguration and will configure an address with the prefix given to the router on the corresponding network.
 
-Try to ping follwowing:
+Try to ping following:
 
 * Router 1 (eth0) <-> Node 1 (eth0)
 * Router 1 (eth1) <-> Router 2 (eth1)
@@ -53,6 +55,8 @@ This should work without any problems.
 >
 >
 > ```
+
+### Tunneling
 
 Now, we setup a 6-in-4 tunnel between "Router 1" and "Router 2", such that "Node 1" and "Node 2" can communicate using IPv6.
 
@@ -122,15 +126,28 @@ Inspect the ping packets captured.
 
 Stop the laboratory.
 
-### Part 2: Protocol translation
+## Part 2: Protocol translation
 
 In this part we will use protocol translation mechanisms to provide interworking between IPv6 and IPv4. We will use a mechanism calles stateless NAT64 (actually it is SIIT). On Linux this is provided by the Tayga software package.
 
 TAYGA is an out-of-kernel stateless NAT64 implementation for Linux that uses the TUN driver to exchange IPv4 and IPv6 packets with the kernel. It is intended to provide production-quality NAT64 service for networks where dedicated NAT64 hardware would be overkill.
 
-Start the VNE Manager and build the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
+### Lab overview
+
+#### Setup
 
 ![LAB03_NAT64](/workshops/workshop 03/images/LAB03_NAT64.png)
+
+#### Network
+
+| Name             | Network
+|------------------|--------------------------
+| Shannon          | 2001:db8:1:1::0 / 64
+| Nygaard          | 192.168.1.0 / 24
+| Nygaard IPv6 NAT | 2001:db8:1:ffff::0 / 96
+| NAT Pool         | 192.168.255.0 / 24
+
+### Creating the lab
 
 Configure the interfaces given in the table below:
 
@@ -140,7 +157,10 @@ Configure the interfaces given in the table below:
 | Node 2        | 192.168.1.2 / 24     | N/A              |
 | NAT64 gateway	| 2001:db8:1:1::1 / 64 | 192.168.1.1 / 24 |
 
-Before starting the TAYGA daemon, the routing setup on your system will need to be changed to send IPv4 and IPv6 packets to TAYGA.
+
+### Tayga
+
+Before starting the TAYGA daemon, the routing setup on your NAT64gw will need to be changed to send IPv4 and IPv6 packets to TAYGA.
 
 Make a configuration file ```/usr/local/etc/tayga.conf``` with the following content:
 
