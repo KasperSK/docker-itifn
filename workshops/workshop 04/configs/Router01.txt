@@ -1,0 +1,46 @@
+auto eth0
+iface eth0 inet static
+	address 192.168.0.1
+	netmask 255.255.255.252
+
+auto eth1
+iface eth1 inet static
+	address 192.168.0.10
+	netmask 255.255.255.252
+
+auto eth2
+iface eth2 inet static
+	address 192.168.1.1
+	netmask 255.255.255.0
+
+
+
+cat << EOF > /etc/quagga/deamons
+zebra=yes
+ripd=yes
+EOF
+
+cat << EOF > /etc/quagga/ripd.conf
+router rip
+network eth0
+network eth1
+network eth2
+
+timers basic 30 40 10
+
+redistribute kernel
+redistribute static
+
+interface eth0
+  no ip rip authentication mode
+interface eth1
+  no ip rip authentication mode
+EOF
+
+touch /etc/quagga/zebra.conf
+
+chown quagga:quagga /etc/quagga/zebra.conf
+chown quagga:quagga /etc/quagga/ripd.conf
+
+/usr/sbin/zebra &
+/usr/sbin/ripd &
