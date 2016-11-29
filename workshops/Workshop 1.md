@@ -5,13 +5,13 @@ This workshop consists of two parts. The first part is dealing with IPv4 static 
 
 The overall goal of the workshop is to consolidate the material that has been covered in the lectures on IPv4 and IPv6 and get some experience working with basic IP concepts in practice.
 
-## Lab Setup
+## Lab Overview
 
-This is an overview of the Lab setup
+#### Setup
 
 ![Project](/workshops/resources/LAB01.png)
 
-Following networks are used
+#### Networks
 
 | Name         | Network
 |--------------|--------------------------
