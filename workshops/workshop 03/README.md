@@ -12,7 +12,7 @@ We first consider the process of setting up a single IPv6-in-IPv4 tunnel. The IP
 
 Start GNS3 the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
 
-![LAB02](/workshops/resources/LAB02_6IN4.png)
+![LAB03](/workshops/workshop 03/images/LAB03_6IN4.png)
 
 Following networks are used
 
@@ -130,7 +130,7 @@ TAYGA is an out-of-kernel stateless NAT64 implementation for Linux that uses the
 
 Start the VNE Manager and build the "simple-tunnel-lab" laboratory. The topology of the laboratory is as follows:
 
-![LAB02_NAT64](/workshops/resources/LAB02_NAT64.png)
+![LAB03_NAT64](/workshops/workshop 03/images/LAB03_NAT64.png)
 
 Configure the interfaces given in the table below:
 
