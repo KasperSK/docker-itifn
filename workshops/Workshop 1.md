@@ -5,13 +5,26 @@ This workshop consists of two parts. The first part is dealing with IPv4 static 
 
 The overall goal of the workshop is to consolidate the material that has been covered in the lectures on IPv4 and IPv6 and get some experience working with basic IP concepts in practice.
 
+## Lab Setup
+
+This is an overview of the Lab setup
+
+![Project](/workshops/resources/LAB01.png)
+
+Following networks are used
+
+| Name         | Network
+|--------------|--------------------------
+| Shannon      | 10.0.0.0 / 24
+| Shannon      | 2001:16d8:dd92:1001::0 /64
+
 ## Creating and Setting up the Laboratory
 The same GNS3 project is used for all experiments. The first step is to create the project.
  * Start GNS3
  * Add an Ethernet Switch, two Nodes, and a Router
  * Connect them as below
 
-    ![Project](/workshops/resources/LAB01.png)
+
 
  * Save the project
  * Start all devices, wait until all links are green
