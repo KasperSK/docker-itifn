@@ -160,7 +160,7 @@ Configure the interfaces given in the table below:
 
 ### Tayga
 
-Before starting the TAYGA daemon, the routing setup on your NAT64gw will need to be changed to send IPv4 and IPv6 packets to TAYGA.
+Before starting the TAYGA daemon, the routing setup on your NAT64 gateway will need to be changed to send IPv4 and IPv6 packets to TAYGA.
 
 Make a configuration file ```/usr/local/etc/tayga.conf``` with the following content:
 
@@ -174,12 +174,12 @@ Then create the TUN network interface.
 
     tayga --mktun
 
-Enable datagram forwarding on interfaces on NAT64gw:
+Enable datagram forwarding on interfaces on NAT64 gateway:
 
     sysctl -w net.ipv6.conf.all.forwarding=1
     sysctl -w net.ipv4.ip_forward=1
 
-Define a new interface on the NAT64gw and assign an IPv4 as well as an IPv6 address to the interface:
+Define a new interface on the NAT64 gateway and assign an IPv4 as well as an IPv6 address to the interface:
 
     ip link set nat64 up
     ip addr add 192.168.0.1 dev nat64
@@ -190,11 +190,11 @@ Setup static routes to ensure that traffic is routed to the new interface.
     ip route add 192.168.255.0/24 dev nat64
     ip route add 2001:db8:1:ffff::/96 dev nat64
 
-Finally, start the NAT64gw application by using the command
+Finally, start the NAT64 gateway application by using the command
 
     tayga -d &
 
-Inspect the new interface by using ifconfig nat64. On the NAT64gw try to ping6 2001:db8:1:ffff::192.168.0.1. If it succeeds Tayga is running properly.
+Inspect the new interface by using ifconfig nat64. On the NAT64 gateway try to ping6 2001:db8:1:ffff::192.168.0.1. If it succeeds Tayga is running properly.
 
 Add default gateway routes to Node 1 and Node 2, respectively:
 
