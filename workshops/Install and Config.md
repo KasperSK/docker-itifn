@@ -28,6 +28,8 @@ sudo sh -c 'echo "wireshark-common wireshark-common/install-setuid boolean true"
 # Install GNS3, Wireshark, Git and Docker
 sudo apt-get install --yes --quiet gns3-gui git wireshark docker.io gnome-terminal
 sudo usermod -aG docker $USER
+sudo docker pull kalledk/itifn:router
+sudo docker pull kalledk/itifn:node
 
 # Get the appliances
 cd ~/Downloads
