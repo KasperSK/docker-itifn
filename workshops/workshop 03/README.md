@@ -10,7 +10,7 @@ We first consider the process of setting up a single IPv6-in-IPv4 tunnel. The IP
 
 ### Lab Overview
 
-#### Setup
+#### Topology
 
 ![LAB03_6IN4](/workshops/workshop 03/images/LAB03_6IN4.png)
 
