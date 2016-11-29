@@ -26,12 +26,24 @@ sudo apt-get install --yes virtualbox-guest-additions-iso
 sudo sh -c 'echo "wireshark-common wireshark-common/install-setuid boolean true" | debconf-set-selections'
 
 # Install GNS3, Wireshark, Git and Docker
-sudo apt-get install --yes --quiet gns3-gui git wireshark docker.io
+sudo apt-get install --yes --quiet gns3-gui git wireshark docker.io gnome-terminal
+sudo usermod -aG docker $USER
 
 # Get the appliances
 cd ~/Downloads
 git clone https://github.com/KalleDK/docker-itifn.git
 ```
+
+* Reboot
+
+* Run gns3
+* Choose __Local Server__ and __Don't show this again__ - Next
+* Uncheck all checkboxes - Finish
+* Under Miscellaneous uncheck __Launch the new project dialog on startup__ - Ok
+* Import the appliances in __~/Downloads/docker-itifn/appliances__
+    * File -> Import Appliance
+    * Choose appliance
+    * Next next next finish ok
 
 ## OSX
 
