@@ -9,64 +9,80 @@ Version 0.4, date 2012-10-09.
 
 This workshop consists of two parts. The first part shows how routing can be setup statically in an IP network, while the second part uses the RIP protocol to perform dynamic routing. We will only be using IPv4 in this workshop as the IPv4 addresses are shorter and hence easier to deal with. The basic concepts are the same for IPv6 networks.
 
-The topology of the laboratory is as follows:
+## Lab Overview
 
+### Topology
 
-Setting up the Laboratory
+![LAB03_6IN4](/workshops/workshop 04/images/LAB04.png)
+
+### Networks
+
+| Name         | Network
+|--------------|--------------------------
+| Shannon      | 10.1.0.0 / 16
+| Eddison      | 10.2.0.0 / 16
+| Nygaard      | 10.3.0.0 / 16
+| Interconnect | 10.4.0.0 / 16
+
+### Setting up the Laboratory
 
 The network nodes in the laboratory are to be configured with static IPv4 addresses that are retained between laboratory restarts as explained in the following.
 
-Start VNE.
-Build the laboratory depicted above.
-Start the laboratory and wait for all network nodes to startup (showing the login-prompt)
-The IP addresses of all network nodes are to be configured according to the following address allocation for the four networks (Net 1, Net 2, Net 3, and Net 4):
-
-| Network | Network ID	| Network mask
-|---------|-------------|-------------
-| Net 1	  | 10.1.0.0    | /16
-| Net 2	  | 10.2.0.0    | /16
-| Net 3	  | 10.3.0.0    | /16
-| Net 4	  | 10.4.0.0    | /16
+* Start GNS3.
+* Build the laboratory depicted above.
 
 The allocation of the IP addresses to the interfaces of each node is as follows:
 
-| Node      |	Eth0 	      | Eth1
-|-----------|-------------|-------------
-| Host 1	  | 10.1.0.2/16 |	N/A
-| Host 2	  | 10.3.0.2/16	|	N/A
-| Host 3	  | 10.4.0.2/16	|	N/A
-| Router 1	| 10.1.0.1/16	|	10.2.0.1/16
-| Router 2	| 10.2.0.2/16	|	10.3.0.1/16
-| Router 3	| 10.2.0.3/16	|	10.4.0.1/16
+| Node      |	Eth0 	        | Eth1
+|-----------|---------------|-------------
+| Node 1	  | 10.1.0.2 / 16 |	N/A
+| Node 2	  | 10.2.0.2 / 16	|	N/A
+| Node 3	  | 10.3.0.2 / 16	|	N/A
+| Router 1	| 10.4.0.1 / 16	|	10.1.0.1 / 16
+| Router 2	| 10.4.0.2 / 16	|	10.2.0.1 / 16
+| Router 3	| 10.4.0.3 / 16	|	10.3.0.1 / 16
 
-__NOT LIKE THIS__
-_The IP address configuration is made persistent between laboratory shutdowns by adding the configuration lines to /etc/init.d/network which will be loaded during startup._
+You can create _persistent_ network configuration by right-clicking a node, choosing _Configure_ and click the _Edit_ button.
 
-Login to "Host 1", and add the following to the end of /etc/init.d/network:
+This would be the text for Node 1
 
-    ifconfig eth0 up 10.1.0.2 netmask 255.255.0.0
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.0.2
+	netmask 255.255.0.0
+```
 
-This will configure eth0 of Host 1 with the IP address 10.1.0.2 and the netmask 255.255.0.0. The configuration will not be effectively immediately, run /etc/init.d/network to activate the configuration.
+Test that "Node 1" can ping eth1 on "Router 1".
 
-Configure the two other hosts as done in the previous step, using the correct address according to the IP address allocation table. The routers will be configured in the next step. Remember to run /etc/init.d/network in order to activate the IP configuration.
-The routers are configured by adding three lines to /etc/init.d/network. One for each interface, and one to enable IP packet forwarding. Login to "Router 1" and add the following to /etc/init.d/network:
-        ifconfig eth0 up 10.1.0.1 netmask 255.255.0.0
-        ifconfig eth1 up 10.2.0.1 netmask 255.255.0.0
-        echo 1 > /proc/sys/net/ipv4/ip_forward
+On "Node 1" run ```ip route``` this will show the routing table of the host.
 
-Remember to run /etc/init.d/network in order to activate the IP configuration.
-Configure the remaining two routers in the same manner as "Router 1" was configured, using the IP addresses from the IP address allocation table. Remember to run /etc/init.d/network in order to activate the IP configuration.
-Test that "Host 1" can ping eth0 (10.1.0.1) of "Router 1".
-On "Host 1" run:
-	route
+> ##### Challenge 4.1
+> Use the output from ```ip route``` to explain why "Node 1" cannot ping eth0 (10.4.0.1) of "Router 1".
+> ```
+>
+>
+>
+>
+>
+>
+> ```
 
-this will show the routing table of the host.
 
-Challenge 4.1
-Use the output from route to explain why "Host 1" cannot ping eth1 (10.2.0.1) of "Router 1".
 
-Challenge 4.2
-Which nodes can ping each other, and which cannot? Explain why this is so (the output of the route command on each node might help you).
+> ##### Challenge 4.2
+> Which nodes can ping each other, and which cannot? Explain why this is so (the output of the ```ip route``` command on each node might help you).
+> ```
+>
+>
+>
+>
+>
+>
+> ```
+
+
+
 
 Part 1: Static Routing
 
