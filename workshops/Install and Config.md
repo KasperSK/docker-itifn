@@ -10,24 +10,28 @@
 * Install VMWare or VirtualBox
 * Install [Lubuntu](https://help.ubuntu.com/community/Lubuntu/GetLubuntu) or your favorite distro
 
-    # Install keys from gns3
-    sudo add-apt-repository --yes --keyserver https://hkps.pool.sks-keyservers.net ppa:gns3/ppa
-    sudo apt-get update --yes
+```
+# Install keys from gns3
+sudo add-apt-repository --yes --keyserver https://hkps.pool.sks-keyservers.net ppa:gns3/ppa
+sudo apt-get update --yes
 
-    # Install Guest Addisions of this is VirtualBox - VMWare do something else
-    sudo apt-get install --yes virtualbox-guest-additions-iso
+# Install Guest Addisions of this is VirtualBox - VMWare do something else
+sudo apt-get install --yes virtualbox-guest-additions-iso
+```
 
 * Reboot
 
-    # Preconfigure Wireshark to allow non root to use Wireshark
-    sudo sh -c 'echo "wireshark-common wireshark-common/install-setuid boolean true" | debconf-set-selections'
+```
+# Preconfigure Wireshark to allow non root to use Wireshark
+sudo sh -c 'echo "wireshark-common wireshark-common/install-setuid boolean true" | debconf-set-selections'
 
-    # Install GNS3, Wireshark, Git and Docker
-    sudo apt-get install --yes --quiet gns3-gui git wireshark docker.io
+# Install GNS3, Wireshark, Git and Docker
+sudo apt-get install --yes --quiet gns3-gui git wireshark docker.io
 
-    # Get the appliances
-    cd ~/Downloads
-    git clone https://github.com/KalleDK/docker-itifn.git
+# Get the appliances
+cd ~/Downloads
+git clone https://github.com/KalleDK/docker-itifn.git
+```
 
 ## OSX
 
