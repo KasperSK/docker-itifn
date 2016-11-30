@@ -26,11 +26,9 @@ RUN apk add --no-cache quagga
 RUN touch /var/lib/dhcp/dhcpd.leases \
     && mkdir /var/run/radvd \
     && mkdir -p /dev/net \
-    && mknod /dev/net/tun c 10 200 \
-    && touch /etc/quagga/ospfd.conf \
-    && touch /etc/quagga/bgpd.conf \
-    && touch /etc/quagga/zebra.conf \
-    && chown -R quagga:quagga /etc/quagga
+    && mknod /dev/net/tun c 10 200
+    
+VOLUME ["/etc/quagga"]
     
 
 COPY entrypoint.sh /bin/entrypoint.sh

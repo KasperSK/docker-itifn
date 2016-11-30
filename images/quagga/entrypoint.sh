@@ -34,6 +34,12 @@ sysctl -w net.ipv6.conf.eth3.dad_transmits=0 > /dev/null
 sysctl -w net.ipv6.conf.eth3.accept_ra=0 > /dev/null
 sysctl -w net.ipv6.conf.eth3.router_solicitations=0 > /dev/null
 
+touch /etc/quagga/ospfd.conf
+touch /etc/quagga/bgpd.conf
+touch /etc/quagga/zebra.conf
+
+chown -R quagga:quagga /etc/quagga
+
 /usr/sbin/zebra -d
 /usr/sbin/ospfd -d
 /usr/sbin/bgpd -d
