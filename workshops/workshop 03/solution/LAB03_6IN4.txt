@@ -1,0 +1,60 @@
+# Router 1
+
+cat << EOF > /etc/radvd.conf
+interface eth0 {
+    AdvSendAdvert on;
+    prefix 2001:878:402:1::/64 {
+    };
+};
+EOF
+
+/usr/sbin/radvd
+
+iptunnel add tun0 mode sit ttl 64 remote 10.0.0.2 local 10.0.0.1
+ip addr add 2001:878:402:3::1/64 dev tun0
+ip link set up tun0
+
+ip -6 route add 2001:878:402:2::/64 via 2001:878:402:3::2
+
+# Node 1
+
+sysctl -w net.ipv6.conf.eth0.autoconf=1
+sysctl -w net.ipv6.conf.eth0.dad_transmits=1
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+sysctl -w net.ipv6.conf.eth0.router_solicitations=3
+
+ip link set down eth0
+ip link set up eth0
+
+ip -6 route del default
+ip -6 route add default via 2001:878:402:1::1
+
+# Router 2
+
+cat << EOF > /etc/radvd.conf
+interface eth0 {
+    AdvSendAdvert on;
+    prefix 2001:878:402:2::/64 {
+    };
+};
+EOF
+
+/usr/sbin/radvd
+
+iptunnel add tun0 mode sit ttl 64 remote 10.0.0.1 local 10.0.0.2
+ip addr add 2001:878:402:3::2/64 dev tun0
+ip link set up tun0
+
+ip -6 route add 2001:878:402:1::/64 via 2001:878:402:3::1
+
+# Node 2
+
+sysctl -w net.ipv6.conf.eth0.autoconf=1
+sysctl -w net.ipv6.conf.eth0.dad_transmits=1
+sysctl -w net.ipv6.conf.eth0.accept_ra=1
+sysctl -w net.ipv6.conf.eth0.router_solicitations=3
+
+ip link set down eth0
+ip link set up eth0
+ip -6 route del default
+ip -6 route add default via 2001:878:402:2::1

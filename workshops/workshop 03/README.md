@@ -104,6 +104,14 @@ Ensure that you can ping 2001:878:402:1::1 from both "Router 2" and "Node 2".
 
 Use the command ```ip -6 route``` to inspect the routing tables on "Router 1" and "Router 2", and observe how the tunnel endpoints are being used as interfaces.
 
+Lastly add the default route on Node 1
+
+    ip -6 route replace default via 2001:878:402:1::1
+
+ And Node 2
+
+     ip -6 route replace default via 2001:878:402:2::1
+
 Start Wireshark, and capture packets from IPv4 Net. Ping "Node 2" from "Node 1".
 
 After a couple of ping requests have been answered, stop the ping and Wireshark capture.
