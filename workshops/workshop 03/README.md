@@ -195,8 +195,8 @@ Define a new interface on the NAT64 gateway and assign an IPv4 as well as an IPv
 
 Setup static routes to ensure that traffic is routed to the new interface.
 
+    ip -6 route add 2001:db8:1:ffff::/96 dev nat64
     ip route add 192.168.255.0/24 dev nat64
-    ip route add 2001:db8:1:ffff::/96 dev nat64
 
 Finally, start the NAT64 gateway application by using the command
 
@@ -206,8 +206,8 @@ Inspect the new interface by using ifconfig nat64. On the NAT64 gateway try to p
 
 Add default gateway routes to Node 1 and Node 2, respectively:
 
-    ip route add ::/0 via 2001:db8:1:1::1      (Node 1)
-    ip route add 0.0.0.0/0 via 192.168.1.1     (Node 2)
+    ip -6 route replace default via 2001:db8:1:1::1      (Node 1)
+    ip route replace default via 192.168.1.1             (Node 2)
 
 
 > ##### Challenge 3.4
