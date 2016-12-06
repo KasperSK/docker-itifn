@@ -14,8 +14,32 @@ In this workshop will be looking at the network scenario sketched below:
 
 ![LAB05](/workshops/workshop 05/images/LAB05.png)
 
+#### AS Overview
 
-Routers DNK-1, DNK-2 and DNK-3 belongs to AS 65001, router DEU-1 belongs to AS 65003, SWE-1 belongs to AS 65004 and lastly RUS-1 belongs to AS 65005. iBGP session runs between the external BGP routers DNK-1 and DNK-3. eBGP session runs between the pairs DNK-2 <-> DEU-1, DNK-3 <-> SWE-1, DEU-1 <-> RUS-1, and SWE-1 <-> RUS-1. In addition, AS 65001 uses OSPF for managing its interior network topology.
+* AS 65001
+  * DNK-1
+  * DNK-2
+  * DNK-3
+* AS 65003
+  * DEU-1
+* AS 65004
+  * SWE-1
+* AS 65005
+  * RUS-1
+
+#### Routing Protocols
+
+* OSPF Mesh
+  * DNK-1
+  * DNK-2
+  * DNK-3
+* eBGP
+  * DNK-2 <-> DEU-1
+  * DEU-1 <-> RUS-1
+  * RUS-1 <-> SWE-1
+  * SWE-1 <-> DNK-3
+* iBGP
+  * DNK-2 <-> DNK-3
 
 The functionalities we will test in this workshop are the following:
 
@@ -29,9 +53,6 @@ DNK-2 is the preferred router to exit AS 65001. Customized local preferences are
 * OSPF to BGP redistribution:
     * On DNK-2: OSPF networks are injected into BGP with the default values.
     * On DNK-3: OSPF networks are injected into BGP with the default values.
-* Local Preference:
-    * DNK-2: Incoming routes should have metric 333
-    * DNK-3: Incoming routes should have metric 222
 
 
 ### Preparation
@@ -68,10 +89,20 @@ Proceed to the other routers and all relevant interfaces.
 The OSPF routers are configured like this:
 
 ```
+! DNK-1
 router ospf
   redistribute connected
   network 10.0.1.0/24 area 0.0.0.0
+  network 10.0.2.0/24 area 0.0.0.0
 ```
+
+```
+! DNK-2
+router ospf
+  network 30.0.1.1/32 area 0.0.0.0
+  network 10.0.1.0/24 area 0.0.0.0
+```
+
 
 Proceed to the other OSPF routers and complete the configurations.
 
@@ -126,6 +157,7 @@ Now you should add the BGP configuration to the 5 BGP routers
 Between the eBGP nodes we use the ip on the interface. Between the iBGP nodes we use the loopback address
 
 ```
+! DNK-2
 router bgp 65001
   bgp router-id 30.0.1.1
   network 30.0.1.1 mask 255.255.255.255
@@ -135,6 +167,17 @@ router bgp 65001
   neighbor 172.16.1.2 remote-as 65003
   no auto-summary
 ```
+
+```
+! RUS-2
+router bgp 65005
+  bgp router-id 70.0.1.1
+  redistribute connected
+  neighbor 192.168.1.1 remote-as 65003
+  neighbor 192.168.2.1 remote-as 65004  
+  no auto-summary
+```
+
 
 ### Inspecting the BGP Network
 
