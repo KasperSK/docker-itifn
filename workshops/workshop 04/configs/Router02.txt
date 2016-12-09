@@ -24,12 +24,10 @@ cat << EOF > /etc/quagga/ripd.conf
 router rip
 network eth0
 network eth1
-network eth2
 
 timers basic 30 40 10
 
-redistribute kernel
-redistribute static
+redistribute connected
 
 interface eth0
   no ip rip authentication mode
