@@ -212,18 +212,21 @@ network eth1
 
 timers basic 30 40 10
 
-redistribute kernel
 redistribute static
+redistribute connected
 
 interface eth0
+  no ip rip authentication mode
+
+interface eth1
   no ip rip authentication mode
 ```
 
 The first three lines enable the RIP protocol (router rip), for the two interfaces. "timers basic 30 40 10" changes the default timers of the RIP daemon, so that RIP announcements are send every 30 seconds, routes timeout after 40 seconds, and are removed after 10 seconds (in addition to the 40).
 
-The two "redistribute" lines means that the Quagga service will redistribute both kernel routes and static routes using RIP announcements. Static routes are routes created manually, like we did in part 1, while kernel routes are routes which are automatically added when assigning IP addresses to interfaces.
+The two "redistribute" lines means that the Quagga service will redistribute both connected routes and static routes using RIP announcements. Static routes are routes created manually, like we did in part 1, while connected routes are routes which are automatically added when assigning IP addresses to interfaces.
 
-The last two lines tell the RIP daemon to accept updates on eth0 without authentication. We do not use authentication here, as it will make configuration more difficult without yielding much new information. Also, we only want to receive updates from eth0, as "Node 1" should not be able to update routing information on the router.
+The last two lines tell the RIP daemon to accept updates on eth0 and eth1 without authentication. We do not use authentication here, as it will make configuration more difficult without yielding much new information. Also, we only want to receive updates from eth0 and eth1, as "Node 1" should not be able to update routing information on the router.
 
 Change owner on /etc/quagga/ripd.conf using
 
