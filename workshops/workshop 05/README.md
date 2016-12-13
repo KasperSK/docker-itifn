@@ -72,6 +72,12 @@ DNK-2 is the preferred router to exit AS 65001. Customized local preferences are
 
 ### Configuration the Interfaces
 
+To enter configure mode use following command
+
+```
+configure terminal
+```
+
 Interfaces should be configured like this
 
 ```
